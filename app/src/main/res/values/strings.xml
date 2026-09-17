@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">MiPokedex_ContrerasJimenezServando</string>
+    <string name="Altura">Altura</string>
+    <string name="Numero_de_altura">0.4m</string>
+    <string name="Peso">Peso</string>
+    <string name="Numero_de_peso">6.0kg</string>
+    <string name="Habilidad">Habilidad</string>
+    <string name="Nombre_habilidad">Elect.Estatica</string>
+    <string name="Tipo">Eléctrico</string>
+    <string name="Pokemon">Pikachu</string>
+    <string name="Numero_Pokedex">#025</string>
+    <string name="Informacion">Cuando se enfada, este Pokémon descarga la energía que almacena en el interior de las bolsas de las mejillas.</string>
+    <string name="Arbok">Arbok N.°0024</string>
+    <string name="Raichu">Raichu N.°0026</string>
+</resources>
