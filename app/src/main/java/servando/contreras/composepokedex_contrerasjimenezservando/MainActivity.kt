@@ -49,7 +49,7 @@ val pokemon = Pokemon(
     description = "SDASDASDASD.",
     height = 0.4f,
     weight = 6.0f,
-    fav = true,
+    favorite = true,
     ability = "Estatica",
     image = R.drawable.pikachu
 )
@@ -133,7 +133,7 @@ fun PokemonHeaderPreview(){
 @Composable
 fun Greeting(pokemon: Pokemon, modifier: Modifier = Modifier) {
     Column(Modifier.background(ElectricYellow, RectangleShape)){
-        PokemonHeader(pokemon.name, pokemon.number, pokemon.fav)
+        PokemonHeader(pokemon.name, pokemon.number, pokemon.favorite)
         PokemonCard(pokemon.name,pokemon.weight,pokemon.height, pokemon.description, pokemon.ability,pokemon.type, pokemon.image)
     }
 }
@@ -150,7 +150,7 @@ fun GreetingPreview() {
                 description = "Cuando se enfada, este Pokémon descarga la energía que almacena en el interior de las bolsas de las mejillas.",
                 height = 0.4f,
                 weight = 6.0f,
-                fav = true,
+                favorite = true,
                 ability = "Estatica",
                 image = R.drawable.pikachu
             )
