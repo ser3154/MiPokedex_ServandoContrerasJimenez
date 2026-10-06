@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import servando.contreras.composepokedex_contrerasjimenezservando.ui.theme.ElectricYellow
+import servando.contreras.composepokedex_contrerasjimenezservando.ui.theme.Electric
 
 
 @Composable
@@ -25,5 +25,5 @@ fun Chip(text: String, color: Color, modifier: Modifier = Modifier){
 @Preview(showBackground = true)
 @Composable
 fun ChipPreview(){
-    Chip("Electrico", ElectricYellow)
+    Chip("Electrico", Electric)
 }

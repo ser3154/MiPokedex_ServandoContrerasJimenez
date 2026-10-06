@@ -9,6 +9,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import servando.contreras.composepokedex_contrerasjimenezservando.components.MenuPokedex
 import servando.contreras.composepokedex_contrerasjimenezservando.data.pokemonList
+import servando.contreras.composepokedex_contrerasjimenezservando.screens.MenuPokedexScreen
 import servando.contreras.composepokedex_contrerasjimenezservando.ui.theme.ComposePokedex_ContrerasJimenezServandoTheme
 
 class PokedexList : ComponentActivity() {
@@ -18,7 +19,7 @@ class PokedexList : ComponentActivity() {
         setContent {
             ComposePokedex_ContrerasJimenezServandoTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    MenuPokedex(pokemonList, innerPadding)
+                    MenuPokedexScreen(innerPadding)
                 }
             }
         }

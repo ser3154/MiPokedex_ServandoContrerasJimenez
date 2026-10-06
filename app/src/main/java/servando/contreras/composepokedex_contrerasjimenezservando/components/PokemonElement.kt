@@ -19,7 +19,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import servando.contreras.composepokedex_contrerasjimenezservando.data.bulbasaur
 import servando.contreras.composepokedex_contrerasjimenezservando.domain.Pokemon
-import servando.contreras.composepokedex_contrerasjimenezservando.ui.theme.Green
+import servando.contreras.composepokedex_contrerasjimenezservando.utilities.getColorByType
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.size
+import androidx.compose.ui.graphics.Brush
+import servando.contreras.composepokedex_contrerasjimenezservando.ui.theme.OffWhite
 
 @Composable
 fun PokemonRow(pokemon: Pokemon) {
@@ -63,12 +70,10 @@ fun PokemonRow(pokemon: Pokemon) {
             }
         }
 
-        Text(
+        NumberChip(
             text = pokemon.number.toString(),
-            modifier = Modifier
-                .align(Alignment.Top)
-                .background(Green)
-                .padding(vertical = 2.dp, horizontal = 5.dp)
+            modifier = Modifier.align(Alignment.Top),
+            colors = getColorByType(pokemon.type)
         )
     }
 }
@@ -77,4 +82,72 @@ fun PokemonRow(pokemon: Pokemon) {
 @Composable
 fun PokemonRowPreview() {
     PokemonRow(bulbasaur)
+}
+
+@Composable
+fun FavoritePokemon(pokemon: Pokemon) {
+    val colors = getColorByType(pokemon.type)
+
+    Column(
+        modifier = Modifier.padding(vertical = 15.dp),
+        verticalArrangement = Arrangement.spacedBy(10.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Box {
+            Box(
+                modifier = Modifier.border(
+                    BorderStroke(
+                        5.dp,
+                        Brush.sweepGradient(
+                            listOf(colors.first, OffWhite, colors.first, OffWhite, colors.first)
+                        )
+                    )
+                )
+            ) {
+                Image(
+                    painter = painterResource(pokemon.image),
+                    contentDescription = "${pokemon.name.lowercase()} image",
+                    modifier = Modifier
+                        .padding(5.dp)
+                        .width(75.dp)
+                )
+            }
+            NumberChip(
+                text = pokemon.number.toString(),
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .offset(10.dp, 10.dp),
+                colors = colors
+            )
+        }
+        Text(text = pokemon.name, style = MaterialTheme.typography.labelLarge)
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PokemonElementPreview() {
+    FavoritePokemon(bulbasaur)
+}
+
+@Composable
+fun PokemonCell(pokemon: Pokemon) {
+    val colors = getColorByType(pokemon.type)
+    Box {
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Image(
+                painter = painterResource(pokemon.image),
+                contentDescription = "${pokemon.name.lowercase()} image",
+                modifier = Modifier
+                    .size(150.dp)
+                    .padding(10.dp)
+            )
+            Text(text = pokemon.name, style = MaterialTheme.typography.labelLarge)
+        }
+        NumberChip(
+            text = pokemon.number.toString(),
+            modifier = Modifier.align(Alignment.TopEnd),
+            colors = colors
+        )
+    }
 }
