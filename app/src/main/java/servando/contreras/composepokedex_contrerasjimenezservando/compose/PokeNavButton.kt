@@ -11,18 +11,21 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import servando.contreras.composepokedex_contrerasjimenezservando.R
+import androidx.compose.foundation.clickable
 
 
 @Composable
+
 fun PokemonNavButton(
     position: String,
     image: Int,
     name: String,
-    number: Int
+    number: Int,
+    onClick: () -> Unit = {}
 ) {
     Column(
         horizontalAlignment = if (position == "left") Alignment.Start else Alignment.End,
-        modifier = Modifier.padding(12.dp)
+        modifier = Modifier.clickable(onClick = onClick).padding(12.dp)   // cambió
     ) {
         Image(
             painter = painterResource(image),
