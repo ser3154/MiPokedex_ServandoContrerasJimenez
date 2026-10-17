@@ -1,4 +1,4 @@
-package servando.contreras.composepokedex_contrerasjimenezservando.view.components
+package servando.contreras.composepokedex_contrerasjimenezservando.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*

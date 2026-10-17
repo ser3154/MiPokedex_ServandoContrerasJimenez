@@ -1,4 +1,4 @@
-package servando.contreras.composepokedex_contrerasjimenezservando.view.components
+package servando.contreras.composepokedex_contrerasjimenezservando.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -11,35 +11,41 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import servando.contreras.composepokedex_contrerasjimenezservando.model.data.pokemonList
-import servando.contreras.composepokedex_contrerasjimenezservando.model.domain.Pokemon
+import servando.contreras.composepokedex_contrerasjimenezservando.data.pokemonList
+import servando.contreras.composepokedex_contrerasjimenezservando.domain.Pokemon
 
 @Composable
-fun MenuPokedex(pokemonList: List<Pokemon>) {
+fun MenuPokedex(pokemonList: List<Pokemon>, onPokemonClick: (Int) -> Unit = {}) {
     LazyColumn {
-        items(pokemonList) { pokemon -> PokemonRow(pokemon) }
+        items(pokemonList) { pokemon ->
+            PokemonRow(pokemon, onClick = { onPokemonClick(pokemon.number) })
+        }
     }
 }
 
 @Composable
-fun FavoritesRow(favoriteList: List<Pokemon>) {
+fun FavoritesRow(favoriteList: List<Pokemon>, onPokemonClick: (Int) -> Unit = {}) {
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(10.dp),
         contentPadding = PaddingValues(horizontal = 10.dp)
     ) {
-        items(favoriteList) { pokemon -> FavoritePokemon(pokemon) }
+        items(favoriteList) { pokemon ->
+            FavoritePokemon(pokemon, onClick = { onPokemonClick(pokemon.number) })
+        }
     }
 }
 
 @Composable
-fun PokedexGrid(pokemonList: List<Pokemon>) {
+fun PokedexGrid(pokemonList: List<Pokemon>, onPokemonClick: (Int) -> Unit = {}) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(3),
         contentPadding = PaddingValues(horizontal = 5.dp, vertical = 20.dp),
         verticalArrangement = Arrangement.spacedBy(10.dp),
         horizontalArrangement = Arrangement.spacedBy(5.dp)
     ) {
-        items(pokemonList) { pokemon -> PokemonCell(pokemon) }
+        items(pokemonList) { pokemon ->
+            PokemonCell(pokemon, onClick = { onPokemonClick(pokemon.number) })
+        }
     }
 }
 

@@ -1,40 +1,57 @@
 package servando.contreras.composepokedex_contrerasjimenezservando.navigation
 
-import android.graphics.drawable.Icon
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarDefaults
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavDestination.Companion.hasRoute
+import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import servando.contreras.composepokedex_contrerasjimenezservando.model.domain.Destination
+import servando.contreras.composepokedex_contrerasjimenezservando.viewModel.PokemonViewModel
 
 @Composable
-fun NavigationBar(modifier: Modifier = Modifier){
+fun RootApp() {
     val navController = rememberNavController()
-    val startDestination = "PokemonList"
-    val selectedDestination by rememberSaveable { }
-    //val startDestination = Destination.HOME
-    //val selectedDestination by remember { mutableStateOf(startDestination) }
+    val viewModel: PokemonViewModel = viewModel()
+    val backStackEntry by navController.currentBackStackEntryAsState()
+    val currentDestination = backStackEntry?.destination
 
-    Scaffold(modifier = Modifier.fillMaxWidth(), bottomBar ={
-        NavigationBar(windowInsets = NavigationBarDefaults.windowInsets){
-            Destination.entries.forEachIndexed { index, destination ->
-                NavigationBarItem(selected = selectedDestination == index, onClick = {navController.navigate(route = destination.route), selectedDestination = index},
-                    icon = Icon(painterResource(destination.icon), ))
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        bottomBar = {
+            NavigationBar {
+                Destination.entries.forEach { destination ->
+                    NavigationBarItem(
+                        selected = currentDestination?.hierarchy?.any {
+                            it.hasRoute(destination.route::class)
+                        } == true,
+                        onClick = {
+                            navController.navigate(destination.route) {
+                                popUpTo<PokemonList> { saveState = true }
+                                launchSingleTop = true
+                                restoreState = true
+                            }
+                        },
+                        icon = {
+                            Icon(
+                                painter = painterResource(destination.icon),
+                                contentDescription = destination.label
+                            )
+                        },
+                        label = { Text(destination.label) }
+                    )
+                }
             }
         }
-    }) {
-        innerPadding ->
-        MyApp(innerPadding)
+    ) { innerPadding ->
+        AppNavHost(navController, viewModel, innerPadding)
     }
-
 }

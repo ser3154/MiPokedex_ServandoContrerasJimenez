@@ -14,14 +14,12 @@ import servando.contreras.composepokedex_contrerasjimenezservando.ui.theme.Elect
 
 
 @Composable
-fun Chip(text: String, color: Color, modifier: Modifier = Modifier){
-    Box (modifier.padding(5.dp, 2.dp)
+fun Chip(text: String, color: Color, modifier: Modifier = Modifier, textColor: Color = Color.Unspecified) {
+    Box(modifier.padding(5.dp, 2.dp)
         .background(color = color, shape = RoundedCornerShape(size = 16.dp))) {
-
-        Text(text)
+        Text(text, color = textColor)
     }
 }
-
 @Preview(showBackground = true)
 @Composable
 fun ChipPreview(){

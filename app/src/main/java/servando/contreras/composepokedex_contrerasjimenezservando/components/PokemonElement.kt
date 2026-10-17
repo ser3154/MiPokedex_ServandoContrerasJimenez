@@ -1,6 +1,8 @@
-package servando.contreras.composepokedex_contrerasjimenezservando.view.components
+package servando.contreras.composepokedex_contrerasjimenezservando.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,8 +18,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import servando.contreras.composepokedex_contrerasjimenezservando.model.data.bulbasaur
-import servando.contreras.composepokedex_contrerasjimenezservando.model.domain.Pokemon
+import servando.contreras.composepokedex_contrerasjimenezservando.data.bulbasaur
+import servando.contreras.composepokedex_contrerasjimenezservando.domain.Pokemon
 import servando.contreras.composepokedex_contrerasjimenezservando.utilities.getColorByType
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
@@ -28,12 +30,13 @@ import androidx.compose.ui.graphics.Brush
 import servando.contreras.composepokedex_contrerasjimenezservando.ui.theme.OffWhite
 
 @Composable
-fun PokemonRow(pokemon: Pokemon) {
+fun PokemonRow(pokemon: Pokemon, onClick: () -> Unit = {}) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
+            .clickable(onClick = onClick)
             .padding(10.dp)
-    ) {
+    )  {
         Image(
             painter = painterResource(id = pokemon.image),
             contentDescription = "${pokemon.name.lowercase()} image",
@@ -84,11 +87,11 @@ fun PokemonRowPreview() {
 }
 
 @Composable
-fun FavoritePokemon(pokemon: Pokemon) {
+fun FavoritePokemon(pokemon: Pokemon, onClick: () -> Unit = {}) {
     val colors = getColorByType(pokemon.type)
 
     Column(
-        modifier = Modifier.padding(vertical = 15.dp),
+        modifier = Modifier.clickable(onClick = onClick).padding(vertical = 15.dp),
         verticalArrangement = Arrangement.spacedBy(10.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -130,9 +133,9 @@ fun PokemonElementPreview() {
 }
 
 @Composable
-fun PokemonCell(pokemon: Pokemon) {
+fun PokemonCell(pokemon: Pokemon, onClick: () -> Unit = {}) {
     val colors = getColorByType(pokemon.type)
-    Box {
+    Box(modifier = Modifier.clickable(onClick = onClick)) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Image(
                 painter = painterResource(pokemon.image),

@@ -1,7 +1,7 @@
-package servando.contreras.composepokedex_contrerasjimenezservando.model.data
+package servando.contreras.composepokedex_contrerasjimenezservando.data
 
 import servando.contreras.composepokedex_contrerasjimenezservando.R
-import servando.contreras.composepokedex_contrerasjimenezservando.model.domain.Pokemon
+import servando.contreras.composepokedex_contrerasjimenezservando.domain.Pokemon
 
 val bulbasaur = Pokemon(
     name = "Bulbasaur",
@@ -28,15 +28,10 @@ val pokemonList = listOf(
     Pokemon("Mimikyu", 778, "Ghost/Fairy", "Its actual appearance is unknown. A scholar who saw what was under its rag overwhelmed by terror and died.", 0.2f, 0.7f, false, "Disguise", R.drawable.mimikyu)
 )
 
-fun getFavoritePokemons(): List<Pokemon>{
-   return pokemonList.filter {
-        it.favorite
-    }
+fun getFavoritePokemons(): List<Pokemon> {
+    return pokemonList.filter { it.favorite }
 }
 
-
-fun getPokemonByNumber(pokemon: Int): Pokemon{
-    return pokemonList.filter {
-        it.number == pokemon
-    }.first()
+fun getPokemonByNumber(number: Int): Pokemon {
+    return pokemonList.first { it.number == number }
 }
