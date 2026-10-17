@@ -6,7 +6,6 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,9 +17,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
-import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -37,7 +34,8 @@ import androidx.compose.ui.zIndex
 import servando.contreras.composepokedex_contrerasjimenezservando.compose.Ability
 import servando.contreras.composepokedex_contrerasjimenezservando.compose.Chip
 import servando.contreras.composepokedex_contrerasjimenezservando.compose.PokemonNavButton
-import servando.contreras.composepokedex_contrerasjimenezservando.domain.Pokemon
+import servando.contreras.composepokedex_contrerasjimenezservando.model.domain.Pokemon
+import servando.contreras.composepokedex_contrerasjimenezservando.navigation.MyApp
 import servando.contreras.composepokedex_contrerasjimenezservando.ui.theme.ComposePokedex_ContrerasJimenezServandoTheme
 import servando.contreras.composepokedex_contrerasjimenezservando.ui.theme.ElectricYellow
 import servando.contreras.composepokedex_contrerasjimenezservando.ui.theme.White
@@ -61,10 +59,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             ComposePokedex_ContrerasJimenezServandoTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        pokemon= pokemon,
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                    MyApp(innerPadding)
                 }
             }
         }

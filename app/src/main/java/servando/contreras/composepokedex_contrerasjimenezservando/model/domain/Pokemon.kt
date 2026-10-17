@@ -1,4 +1,4 @@
-package servando.contreras.composepokedex_contrerasjimenezservando.domain
+package servando.contreras.composepokedex_contrerasjimenezservando.model.domain
 
 data class Pokemon(
     val name: String,
