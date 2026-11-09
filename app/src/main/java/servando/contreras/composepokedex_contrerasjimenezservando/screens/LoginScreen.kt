@@ -70,7 +70,7 @@ fun LoginScreen(innerPadding: PaddingValues, onNavigateToHome: () -> Unit, userV
             Text("Entrar")
         }
         if (userViewModel.loginError) {
-            Text(userViewModel.errorDescription, color = Color.Red, fontStyle = FontStyle.Italic)
+            Text(userViewModel.errorDescription?: "", color = Color.Red, fontStyle = FontStyle.Italic)
         }
     }
 }

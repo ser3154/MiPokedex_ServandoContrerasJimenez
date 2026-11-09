@@ -22,7 +22,7 @@ class UserViewModel(users: Users, private val companionDataStore: CompanionDataS
     }
 
     var loginError by mutableStateOf(false)
-    var errorDescription by mutableStateOf(null)
+    var errorDescription by mutableStateOf<String?>(null)
     val users = users
 
     val pokemonCompanion: StateFlow<Pokemon> = companionDataStore.pokemonCompany().stateIn(scope = viewModelScope, started = SharingStarted.WhileSubscribed(5000), initialValue = PokemonSerializer.defaultValue)
@@ -31,7 +31,7 @@ class UserViewModel(users: Users, private val companionDataStore: CompanionDataS
         val userRetrived = users.loginService(user, password)
         if (userRetrived ==  null){
             loginError = true
-            errorDescription = "Usuareio o contraseña incorrectos"
+            errorDescription = "Usuario o contraseña incorrectos"
         }else{
             loginError = false
             errorDescription = ""
