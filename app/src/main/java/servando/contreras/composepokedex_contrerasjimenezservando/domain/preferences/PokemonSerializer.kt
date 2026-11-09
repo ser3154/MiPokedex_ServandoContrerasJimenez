@@ -5,6 +5,7 @@ import androidx.datastore.core.CorruptionException
 import androidx.datastore.core.Serializer
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
+import servando.contreras.composepokedex_contrerasjimenezservando.R
 import servando.contreras.composepokedex_contrerasjimenezservando.domain.Pokemon
 import java.io.InputStream
 import java.io.OutputStream
@@ -19,7 +20,7 @@ object PokemonSerializer : Serializer<Pokemon> {
         weight = 0f,
         favorite = false,
         ability = "",
-        image = -1
+        image = R.drawable.wtp
     )
 
     override suspend fun readFrom(input: InputStream): Pokemon {

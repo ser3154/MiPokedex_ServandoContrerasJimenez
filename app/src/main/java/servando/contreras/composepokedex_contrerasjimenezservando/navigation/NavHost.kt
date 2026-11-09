@@ -10,6 +10,7 @@ import servando.contreras.composepokedex_contrerasjimenezservando.screens.MenuPo
 import servando.contreras.composepokedex_contrerasjimenezservando.screens.PokemonDetailScreen
 import servando.contreras.composepokedex_contrerasjimenezservando.screens.PokemonHuntScreen
 import servando.contreras.composepokedex_contrerasjimenezservando.screens.ProfileScreen
+import servando.contreras.composepokedex_contrerasjimenezservando.viewModel.PokemonDetailViewModel
 import servando.contreras.composepokedex_contrerasjimenezservando.viewModel.PokemonViewModel
 import servando.contreras.composepokedex_contrerasjimenezservando.viewModel.UserViewModel
 
@@ -18,7 +19,8 @@ fun AppNavHost(
     navController: NavHostController,
     viewModel: PokemonViewModel,
     innerPadding: PaddingValues,
-    userViewModel: UserViewModel
+    userViewModel: UserViewModel,
+    pokemonDetailViewModel: PokemonDetailViewModel
 ) {
     NavHost(navController = navController, startDestination = Login ) {
         composable<Login>{
@@ -35,7 +37,8 @@ fun AppNavHost(
                         launchSingleTop = true
                         restoreState = true
                     }
-                }
+                },
+                onNavigateToProfile = {navController.navigate(Profile)}
             )
         }
         composable<PokemonDetail> {
@@ -47,7 +50,8 @@ fun AppNavHost(
                     navController.navigate(PokemonDetail(number)) {
                         popUpTo<PokemonList>()
                     }
-                }
+                },
+                pokemonDetailViewModel
             )
         }
         composable<PokemonHunt> {
@@ -58,7 +62,7 @@ fun AppNavHost(
             )
         }
         composable<Profile> {
-            ProfileScreen(innerPadding, capturedCount = viewModel.state.team.size)
+            ProfileScreen(innerPadding,userViewModel)
         }
     }
 }

@@ -1,8 +1,10 @@
 package servando.contreras.composepokedex_contrerasjimenezservando.screens
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
@@ -32,11 +34,15 @@ import servando.contreras.composepokedex_contrerasjimenezservando.ui.theme.Light
 fun MenuPokedexScreen(
     innerPadding: PaddingValues,
     onPokemonClick: (Int) -> Unit = {},
-    onNavigateToHunt: () -> Unit = {}
+    onNavigateToHunt: () -> Unit = {},
+    onNavigateToProfile: () -> Unit = {}
 ) {
     var grid by remember { mutableStateOf(false) }
 
     Column(modifier = Modifier.padding(innerPadding)) {
+        IconButton({}) {
+            Image(painterResource(R.drawable.ic_account), contentDescription = "profile button")
+        }
         Row(
             modifier = Modifier.fillMaxWidth().padding(horizontal = 10.dp),
             horizontalArrangement = Arrangement.SpaceBetween,

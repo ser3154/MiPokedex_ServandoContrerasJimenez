@@ -26,12 +26,15 @@ import servando.contreras.composepokedex_contrerasjimenezservando.domain.Pokemon
 import servando.contreras.composepokedex_contrerasjimenezservando.ui.theme.ComposePokedex_ContrerasJimenezServandoTheme
 import servando.contreras.composepokedex_contrerasjimenezservando.ui.theme.White
 import servando.contreras.composepokedex_contrerasjimenezservando.utilities.getColorByType
+import servando.contreras.composepokedex_contrerasjimenezservando.viewModel.PokemonDetailViewModel
 
+//agregar boton para agregar compañero
 @Composable
 fun PokemonDetailScreen(
     pokemonNumber: Int,
     innerPadding: PaddingValues = PaddingValues(),
-    onNavigateToPokemon: (Int) -> Unit = {}
+    onNavigateToPokemon: (Int) -> Unit = {},
+    pokemonDetailViewModel: PokemonDetailViewModel
 ) {
     val index = pokemonList.indexOfFirst { it.number == pokemonNumber }
     val pokemon = pokemonList.getOrNull(index)
@@ -158,10 +161,3 @@ fun PokemonCard(
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun PokemonDetailScreenPreview() {
-    ComposePokedex_ContrerasJimenezServandoTheme {
-        PokemonDetailScreen(pokemonNumber = 25)
-    }
-}
