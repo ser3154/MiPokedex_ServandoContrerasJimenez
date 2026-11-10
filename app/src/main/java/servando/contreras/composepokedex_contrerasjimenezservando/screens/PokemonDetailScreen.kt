@@ -1,22 +1,29 @@
 package servando.contreras.composepokedex_contrerasjimenezservando.screens
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import servando.contreras.composepokedex_contrerasjimenezservando.R
 import servando.contreras.composepokedex_contrerasjimenezservando.compose.Ability
 import servando.contreras.composepokedex_contrerasjimenezservando.compose.Chip
@@ -28,17 +35,28 @@ import servando.contreras.composepokedex_contrerasjimenezservando.ui.theme.White
 import servando.contreras.composepokedex_contrerasjimenezservando.utilities.getColorByType
 import servando.contreras.composepokedex_contrerasjimenezservando.viewModel.PokemonDetailViewModel
 
-//agregar boton para agregar compañero
 @Composable
 fun PokemonDetailScreen(
     pokemonNumber: Int,
     innerPadding: PaddingValues = PaddingValues(),
     onNavigateToPokemon: (Int) -> Unit = {},
-    pokemonDetailViewModel: PokemonDetailViewModel
+    pokemonDetailViewModel: PokemonDetailViewModel = viewModel(
+        factory = PokemonDetailViewModel.provideFactory(
+            LocalContext.current.applicationContext,
+            pokemonNumber
+        )
+    )
 ) {
-    val index = pokemonList.indexOfFirst { it.number == pokemonNumber }
-    val pokemon = pokemonList.getOrNull(index)
+    val context = LocalContext.current
+    val state by pokemonDetailViewModel.uiState.collectAsStateWithLifecycle()
 
+    LaunchedEffect(Unit) {
+        pokemonDetailViewModel.message.collect {
+            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    val pokemon = state.pokemon
     if (pokemon == null) {
         Box(Modifier.fillMaxSize().padding(innerPadding), contentAlignment = Alignment.Center) {
             Text("Pokémon no encontrado")
@@ -58,8 +76,10 @@ fun PokemonDetailScreen(
         PokemonCard(
             pokemon = pokemon,
             typeColors = colors,
-            previous = pokemonList.getOrNull(index - 1),
-            next = pokemonList.getOrNull(index + 1),
+            previous = state.previous,
+            next = state.next,
+            isCompanion = state.isCompanion,
+            onSelectCompanion = { pokemonDetailViewModel.selectCompanion() },
             onNavigateToPokemon = onNavigateToPokemon
         )
     }
@@ -94,6 +114,8 @@ fun PokemonCard(
     typeColors: Pair<Color, Color>,
     previous: Pokemon?,
     next: Pokemon?,
+    isCompanion: Boolean,
+    onSelectCompanion: () -> Unit,
     onNavigateToPokemon: (Int) -> Unit
 ) {
     Box(contentAlignment = Alignment.TopCenter) {
@@ -130,6 +152,21 @@ fun PokemonCard(
                 Row(Modifier.fillMaxWidth(.8f).align(Alignment.CenterHorizontally).padding(25.dp)) {
                     Text(pokemon.description, textAlign = TextAlign.Center)
                 }
+
+                if (isCompanion) {
+                    Text(
+                        text = "Es tu compañero",
+                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                    )
+                } else {
+                    Button(
+                        onClick = onSelectCompanion,
+                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                    ) {
+                        Text("Seleccionar compañero")
+                    }
+                }
+
                 Spacer(Modifier.weight(1f))
                 Row(
                     modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp, vertical = .8.dp),

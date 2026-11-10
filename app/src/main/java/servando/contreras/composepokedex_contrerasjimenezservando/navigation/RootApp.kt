@@ -17,9 +17,10 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import servando.contreras.composepokedex_contrerasjimenezservando.domain.Destination
 import servando.contreras.composepokedex_contrerasjimenezservando.viewModel.PokemonViewModel
+import servando.contreras.composepokedex_contrerasjimenezservando.viewModel.UserViewModel
 
 @Composable
-fun RootApp() {
+fun RootApp(userViewModel: UserViewModel) {
     val navController = rememberNavController()
     val viewModel: PokemonViewModel = viewModel()
     val backStackEntry by navController.currentBackStackEntryAsState()
@@ -53,6 +54,6 @@ fun RootApp() {
             }
         }
     ) { innerPadding ->
-        AppNavHost(navController, viewModel, innerPadding)
+        AppNavHost(navController, viewModel, innerPadding, userViewModel)
     }
 }

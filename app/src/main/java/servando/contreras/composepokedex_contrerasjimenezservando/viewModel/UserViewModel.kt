@@ -13,6 +13,7 @@ import servando.contreras.composepokedex_contrerasjimenezservando.data.Users
 import servando.contreras.composepokedex_contrerasjimenezservando.domain.Pokemon
 import servando.contreras.composepokedex_contrerasjimenezservando.domain.User
 import servando.contreras.composepokedex_contrerasjimenezservando.domain.preferences.PokemonSerializer
+import java.util.concurrent.TimeUnit
 
 class UserViewModel(users: Users, private val companionDataStore: CompanionDataStore): ViewModel(){
     var currentUser by mutableStateOf<User?>(null)
@@ -27,18 +28,24 @@ class UserViewModel(users: Users, private val companionDataStore: CompanionDataS
 
     val pokemonCompanion: StateFlow<Pokemon> = companionDataStore.pokemonCompany().stateIn(scope = viewModelScope, started = SharingStarted.WhileSubscribed(5000), initialValue = PokemonSerializer.defaultValue)
 
-    fun login(user: String, password: String){
+    fun login(user: String, password: String) {
         val userRetrived = users.loginService(user, password)
-        if (userRetrived ==  null){
+        if (userRetrived == null) {
             loginError = true
             errorDescription = "Usuario o contraseña incorrectos"
-        }else{
+        } else {
             loginError = false
             errorDescription = ""
+            currentUser = userRetrived   
         }
     }
 
     fun isLoggedIn(): Boolean{
         return users.isLoggedIn()
+    }
+
+    fun daysAsCompanion(pokemon: Pokemon): Long {
+        if (pokemon.number == -1 || pokemon.companionSince == 0L) return 0
+        return TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis() - pokemon.companionSince)
     }
 }

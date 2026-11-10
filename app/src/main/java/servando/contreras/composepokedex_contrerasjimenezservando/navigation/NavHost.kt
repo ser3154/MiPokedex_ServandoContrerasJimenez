@@ -5,12 +5,12 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.toRoute
 import servando.contreras.composepokedex_contrerasjimenezservando.screens.LoginScreen
 import servando.contreras.composepokedex_contrerasjimenezservando.screens.MenuPokedexScreen
 import servando.contreras.composepokedex_contrerasjimenezservando.screens.PokemonDetailScreen
 import servando.contreras.composepokedex_contrerasjimenezservando.screens.PokemonHuntScreen
 import servando.contreras.composepokedex_contrerasjimenezservando.screens.ProfileScreen
-import servando.contreras.composepokedex_contrerasjimenezservando.viewModel.PokemonDetailViewModel
 import servando.contreras.composepokedex_contrerasjimenezservando.viewModel.PokemonViewModel
 import servando.contreras.composepokedex_contrerasjimenezservando.viewModel.UserViewModel
 
@@ -19,12 +19,11 @@ fun AppNavHost(
     navController: NavHostController,
     viewModel: PokemonViewModel,
     innerPadding: PaddingValues,
-    userViewModel: UserViewModel,
-    pokemonDetailViewModel: PokemonDetailViewModel
+    userViewModel: UserViewModel
 ) {
-    NavHost(navController = navController, startDestination = Login ) {
-        composable<Login>{
-            LoginScreen(innerPadding, onNavigateToHome = {navController.navigate(PokemonList)}, userViewModel)
+    NavHost(navController = navController, startDestination = Login) {
+        composable<Login> {
+            LoginScreen(innerPadding, onNavigateToHome = { navController.navigate(PokemonList) }, userViewModel)
         }
 
         composable<PokemonList> {
@@ -38,22 +37,23 @@ fun AppNavHost(
                         restoreState = true
                     }
                 },
-                onNavigateToProfile = {navController.navigate(Profile)}
+                onNavigateToProfile = { navController.navigate(Profile) }
             )
         }
-        composable<PokemonDetail> {
-            val pokemon = it.arguments?.getInt("pokemon") ?: -1
+
+        composable<PokemonDetail> { backStackEntry ->
+            val route = backStackEntry.toRoute<PokemonDetail>()
             PokemonDetailScreen(
-                pokemonNumber = pokemon,
+                pokemonNumber = route.pokemon,
                 innerPadding = innerPadding,
                 onNavigateToPokemon = { number ->
                     navController.navigate(PokemonDetail(number)) {
                         popUpTo<PokemonList>()
                     }
-                },
-                pokemonDetailViewModel
+                }
             )
         }
+
         composable<PokemonHunt> {
             PokemonHuntScreen(
                 innerPadding = innerPadding,
@@ -61,8 +61,9 @@ fun AppNavHost(
                 onPokemonClick = { number -> navController.navigate(PokemonDetail(number)) }
             )
         }
+
         composable<Profile> {
-            ProfileScreen(innerPadding,userViewModel)
+            ProfileScreen(innerPadding, userViewModel)
         }
     }
 }
