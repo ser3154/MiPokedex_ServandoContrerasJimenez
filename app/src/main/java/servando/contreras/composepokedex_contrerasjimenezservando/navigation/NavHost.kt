@@ -13,7 +13,15 @@ import servando.contreras.composepokedex_contrerasjimenezservando.screens.Pokemo
 import servando.contreras.composepokedex_contrerasjimenezservando.screens.ProfileScreen
 import servando.contreras.composepokedex_contrerasjimenezservando.viewModel.PokemonViewModel
 import servando.contreras.composepokedex_contrerasjimenezservando.viewModel.UserViewModel
-
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
+import servando.contreras.composepokedex_contrerasjimenezservando.data.sqllite.DatabaseHelper
+import servando.contreras.composepokedex_contrerasjimenezservando.data.sqllite.PokemonDAO
+import servando.contreras.composepokedex_contrerasjimenezservando.data.sqllite.PokemonSQLRepository
+import servando.contreras.composepokedex_contrerasjimenezservando.screens.AddPokemonScreen
+import servando.contreras.composepokedex_contrerasjimenezservando.viewModel.AddPokemonViewModel
 @Composable
 fun AppNavHost(
     navController: NavHostController,
@@ -37,7 +45,8 @@ fun AppNavHost(
                         restoreState = true
                     }
                 },
-                onNavigateToProfile = { navController.navigate(Profile) }
+                onNavigateToProfile = { navController.navigate(Profile) },
+                onNavigateToAdd = { navController.navigate(AddPokemon) }
             )
         }
 
@@ -64,6 +73,18 @@ fun AppNavHost(
 
         composable<Profile> {
             ProfileScreen(innerPadding, userViewModel)
+        }
+
+        composable<AddPokemon> {
+            val appContext = LocalContext.current.applicationContext
+            val addPokemonViewModel: AddPokemonViewModel = viewModel(
+                factory = viewModelFactory {
+                    initializer {
+                        AddPokemonViewModel(PokemonSQLRepository(PokemonDAO(DatabaseHelper(appContext))))
+                    }
+                }
+            )
+            AddPokemonScreen(innerPadding, addPokemonViewModel)
         }
     }
 }

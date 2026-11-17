@@ -35,7 +35,8 @@ fun MenuPokedexScreen(
     innerPadding: PaddingValues,
     onPokemonClick: (Int) -> Unit = {},
     onNavigateToHunt: () -> Unit = {},
-    onNavigateToProfile: () -> Unit = {}
+    onNavigateToProfile: () -> Unit = {},
+    onNavigateToAdd: () -> Unit = {}
 ) {
     var grid by remember { mutableStateOf(false) }
 
@@ -49,8 +50,13 @@ fun MenuPokedexScreen(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text("Mi Pokedex", style = MaterialTheme.typography.headlineSmall)
-            Button(onClick = onNavigateToHunt) {
-                Text("Nueva captura")
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                Button(onClick = onNavigateToAdd) {
+                    Text("+")
+                }
+                Button(onClick = onNavigateToHunt) {
+                    Text("Nueva captura")
+                }
             }
         }
 
