@@ -14,5 +14,6 @@ data class Pokemon(
     val favorite: Boolean,
     val ability: String,
     val image: Int,
+    var imageSQL: ByteArray? = null,
     val companionSince: Long = 0L
 )

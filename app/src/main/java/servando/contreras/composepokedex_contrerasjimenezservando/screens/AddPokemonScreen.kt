@@ -3,6 +3,7 @@ package servando.contreras.composepokedex_contrerasjimenezservando.screens
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -19,6 +20,7 @@ import androidx.compose.material3.ExposedDropdownMenuAnchorType
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -44,6 +46,10 @@ fun AddPokemonScreen(innerPadding: PaddingValues, addPokemonViewModel: AddPokemo
     val description = remember { TextFieldState() }
     var openType by remember { mutableStateOf(false) }
     val type = remember { TextFieldState(pokemonTypes[0]) }
+    var height = remember { TextFieldState() }
+    var weight = remember { TextFieldState() }
+    var ability = remember { TextFieldState() }
+    var favorite = remember { mutableStateOf(false) }
 
     val pokemonList by addPokemonViewModel.pokemons.collectAsStateWithLifecycle()
 
@@ -92,6 +98,20 @@ fun AddPokemonScreen(innerPadding: PaddingValues, addPokemonViewModel: AddPokemo
 
         TextField(state = description, label = { Text("Descripcion") })
         Spacer(Modifier.size(15.dp))
+
+        TextField(state = weight, label = {Text("Peso")}, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number))
+        Spacer(Modifier.size(15.dp))
+
+        TextField(state = height, label = {Text("Altura")}, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number))
+        Spacer(Modifier.size(15.dp))
+
+        TextField(state = ability, label = {Text("Habilidad")})
+        Spacer(Modifier.size(15.dp))
+
+        Row() {
+            Text("Favorito:")
+            Switch(favorite, {favorite=it})
+        }
 
         Button(onClick = {
             addPokemonViewModel.savePokemon(
